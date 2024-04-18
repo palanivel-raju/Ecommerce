@@ -1,4 +1,6 @@
 package org.example.ecommerce.Models;
 
-public class Status {
+public enum Status {
+    Active,
+    InActive
 }
