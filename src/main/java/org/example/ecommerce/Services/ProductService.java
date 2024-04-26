@@ -41,6 +41,9 @@ public class ProductService implements IProductService {
 
     @Override
     public Product getproductById(Long productId){
+        if(productId <= 0){
+            throw new IllegalArgumentException("Invalid id passed, please try with other Id");
+        }
        return getProduct(fakeStoreApiClient.getproductById(productId));
     }
 
@@ -63,7 +66,7 @@ public class ProductService implements IProductService {
         Product product = new Product();
         product.setId(fakeStoreProductDTO.getId());
         product.setName(fakeStoreProductDTO.getTitle());
-        product.setDesc(fakeStoreProductDTO.getDescription());
+        product.setDescription(fakeStoreProductDTO.getDescription());
         product.setPrice(fakeStoreProductDTO.getPrice());
         product.setImageUrl(fakeStoreProductDTO.getImage());
         Category category = new Category();

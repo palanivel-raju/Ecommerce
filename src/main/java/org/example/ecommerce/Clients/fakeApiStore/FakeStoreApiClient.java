@@ -44,7 +44,7 @@ public class FakeStoreApiClient {
         FakeStoreProductDTO fakeStoreProductDTO = new FakeStoreProductDTO();
         fakeStoreProductDTO.setId(product.getId());
         fakeStoreProductDTO.setTitle(product.getName());
-        fakeStoreProductDTO.setDescription(product.getDesc());
+        fakeStoreProductDTO.setDescription(product.getDescription());
         fakeStoreProductDTO.setImage(product.getImageUrl());
         fakeStoreProductDTO.setPrice(product.getPrice());
         if(product.getCategory()!= null){

@@ -5,6 +5,10 @@ import org.example.ecommerce.Models.Category;
 import org.example.ecommerce.Models.Product;
 import org.example.ecommerce.Services.IProductService;
 import org.example.ecommerce.Services.ProductService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,8 +27,24 @@ public class ProductController {
     }
 
     @GetMapping("/products/{id}")
-    public Product getproductById(@PathVariable("id") Long productId){
-        return iProductService.getproductById(productId);
+    public ResponseEntity<Product> getproductById(@PathVariable("id") Long productId){
+//        MultiValueMap<String , String> headers = new LinkedMultiValueMap<>();
+//        headers.add("header1", " added manually");
+//        try{
+//            headers.add("header2", " added manually in try block");
+//            if(productId <= 0){
+//                throw new IllegalArgumentException("Invalid product Id");
+//            }
+//            Product product = iProductService.getproductById(productId);
+//            return new ResponseEntity<>(product, headers, HttpStatus.ACCEPTED);
+//        }
+//        catch(Exception e){
+//            return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);
+//        }
+
+        //other way for handling exception by controller advice
+        Product product = iProductService.getproductById(productId);
+        return new ResponseEntity<>(product, HttpStatus.ACCEPTED);
     }
 
     @PostMapping("/products")
@@ -47,9 +67,9 @@ public class ProductController {
     }
     public Product getProductfromProductDTO(ProductRequestDTO productRequestDTO){
         Product product = new Product();
-        product.setId(productRequestDTO.getId());
+//        product.setId(productRequestDTO.getId());
         product.setName(productRequestDTO.getName());
-        product.setDesc(productRequestDTO.getDesc());
+        product.setDescription(productRequestDTO.getDescription());
         product.setPrice(productRequestDTO.getPrice());
         product.setImageUrl(productRequestDTO.getImageUrl());
         if(productRequestDTO.getCategory()!= null){
