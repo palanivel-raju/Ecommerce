@@ -1,13 +1,14 @@
 package org.example.ecommerce.Models;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 
 @Getter
 @Setter
@@ -21,7 +22,7 @@ public class Product extends BaseModel{
     private Double price;
 
 //    @JoinColumn(name ="category_id")
-    @ManyToOne
-    @Cascade(CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JsonManagedReference
     private Category category;
 }

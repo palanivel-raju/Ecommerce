@@ -19,7 +19,7 @@ public class BaseModel {
 
 //    @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
-    private Long Id;
+    private Long id;
     private Date createdAt;
     private Date modifiedAt;
     private Status status;

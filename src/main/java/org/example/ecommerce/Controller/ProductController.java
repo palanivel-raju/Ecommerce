@@ -5,7 +5,10 @@ import org.example.ecommerce.Models.Category;
 import org.example.ecommerce.Models.Product;
 import org.example.ecommerce.Services.IProductService;
 import org.example.ecommerce.Services.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -15,10 +18,15 @@ import java.util.List;
 
 @RestController
 public class ProductController {
+
+    @Autowired
+//    @Qualifier("productservicestub")
     private IProductService iProductService;
-    public ProductController(IProductService iProductService){
-        this.iProductService = iProductService;
-    }
+
+
+//    public ProductController(IProductService iProductService){
+//        this.iProductService = iProductService;
+//    }
 
 
     @GetMapping("/products")
@@ -28,26 +36,27 @@ public class ProductController {
 
     @GetMapping("/products/{id}")
     public ResponseEntity<Product> getproductById(@PathVariable("id") Long productId){
-//        MultiValueMap<String , String> headers = new LinkedMultiValueMap<>();
-//        headers.add("header1", " added manually");
-//        try{
-//            headers.add("header2", " added manually in try block");
-//            if(productId <= 0){
-//                throw new IllegalArgumentException("Invalid product Id");
-//            }
-//            Product product = iProductService.getproductById(productId);
-//            return new ResponseEntity<>(product, headers, HttpStatus.ACCEPTED);
-//        }
-//        catch(Exception e){
+        MultiValueMap<String , String> headers = new LinkedMultiValueMap<>();
+        headers.add("header1", " added manually");
+        try{
+            headers.add("header2", " added manually in try block");
+            if(productId <= 0){
+                throw new IllegalArgumentException("Invalid product Id");
+            }
+            Product product = iProductService.getproductById(productId);
+            return new ResponseEntity<>(product, headers, HttpStatus.ACCEPTED);
+        }
+        catch(Exception ex){
 //            return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);
-//        }
+            throw ex;
+        }
 
-        //other way for handling exception by controller advice
-        Product product = iProductService.getproductById(productId);
-        return new ResponseEntity<>(product, HttpStatus.ACCEPTED);
+//        //other way for handling exception by controller advice
+//        Product product = iProductService.getproductById(productId);
+//        return new ResponseEntity<>(product, HttpStatus.ACCEPTED);
     }
 
-    @PostMapping("/products")
+    @PostMapping(value = "/products", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Product createProduct(@RequestBody ProductRequestDTO productRequestDTO){
         //productRequestDTO to Product
         Product product = getProductfromProductDTO(productRequestDTO);
@@ -67,17 +76,17 @@ public class ProductController {
     }
     public Product getProductfromProductDTO(ProductRequestDTO productRequestDTO){
         Product product = new Product();
-//        product.setId(productRequestDTO.getId());
+        product.setId(productRequestDTO.getId());
         product.setName(productRequestDTO.getName());
         product.setDescription(productRequestDTO.getDescription());
         product.setPrice(productRequestDTO.getPrice());
         product.setImageUrl(productRequestDTO.getImageUrl());
+        Category category = new Category();
         if(productRequestDTO.getCategory()!= null){
-            Category category = new Category();
             category.setId(productRequestDTO.getCategory().getId());
             category.setName(productRequestDTO.getCategory().getName());
-            product.setCategory(productRequestDTO.getCategory());
         }
+        product.setCategory(productRequestDTO.getCategory());
         return product;
     }
 }

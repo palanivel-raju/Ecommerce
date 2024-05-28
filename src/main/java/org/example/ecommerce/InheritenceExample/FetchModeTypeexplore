@@ -1,0 +1,32 @@
+FetchType        FetchMode          Result
+
+LAZY             SELECT             Asked For Products - Queries = 2 queries
+                                    Not Asked For Products - Queries = 1 queries
+
+
+EAGER            SELECT             Asked For Products - Queries - 2 query
+                                    Not Asked For Products - Queries - 2 query
+
+
+
+LAZY             JOIN               Asked For Products - Queries - 1
+                                    Not Asked For Products - Queries - 1
+
+
+
+EAGER            JOIN               Asked For Products - Queries - 1
+                                    Not Asked For Products - Queries - 1
+
+
+LAZY             SUBSELECT           Asked For Products - Queries - 2
+                                     Not Asked For Products - Queries - 1
+
+
+EAGER            SUBSELECT          Asked For Products - Queries - 2
+                                    Not Asked For Products - Queries - 2
+
+-> FetchMode.Join is dominant on everything
+
+-> if my FetchMode = select or subselect , then Fetch.Type dominates
+
+-> FetchType.Eager will always get us data eagerly , we ask, or don't ask, doesn't matter
